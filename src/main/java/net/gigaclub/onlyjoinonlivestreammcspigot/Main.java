@@ -23,7 +23,7 @@ public final class Main extends JavaPlugin {
 
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new checkGroupFunction(), this);
-        pluginManager.registerEvents(new checkStreamerStatusFuncion(), this);
+        pluginManager.registerEvents(new checkStreamerStatusFunction(), this);
 
     }
 
