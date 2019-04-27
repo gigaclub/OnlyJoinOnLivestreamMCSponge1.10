@@ -18,8 +18,8 @@ public final class Main extends JavaPlugin {
         plugin = this;
 
         Objects.requireNonNull(getCommand("addViewer")).setExecutor(new addViewerCommand());
-        Objects.requireNonNull(getCommand("addViewer")).setExecutor(new remViewerCommand());
-        Objects.requireNonNull(getCommand("addViewer")).setExecutor(new showViewerCommand());
+        Objects.requireNonNull(getCommand("remViewer")).setExecutor(new remViewerCommand());
+        Objects.requireNonNull(getCommand("showViewer")).setExecutor(new showViewerCommand());
 
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new checkGroupFunction(), this);
