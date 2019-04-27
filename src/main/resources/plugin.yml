@@ -1,0 +1,5 @@
+name: Net.gigaclub.OnlyJoinOnLivestreamMCSpigot1.10
+version: ${project.version}
+main: net.gigaclub.onlyjoinonlivestreammcspigot.Main
+authors: [GigaClub]
+website: https://GigaClub.net
