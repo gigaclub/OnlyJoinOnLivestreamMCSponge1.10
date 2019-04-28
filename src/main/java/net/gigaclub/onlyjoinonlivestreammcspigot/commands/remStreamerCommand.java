@@ -23,7 +23,6 @@ public class remStreamerCommand implements CommandExecutor {
                     config.set("Streamer", Main.listOfStreamers);
                     for(Map.Entry<String, ArrayList<String>> entry : Main.listOfAllViewers.entrySet()) {
                         config.set("ViewerListOf." + entry.getKey() + ".Viewer", entry.getValue());
-                        sender.sendMessage(entry.getKey() + " " + entry.getValue());
                     }
                     Main.listOfAllViewers.remove(args[0].toLowerCase());
                     sender.sendMessage("§aDer Streamer §6" + args[0] + " §awurde aus der Liste §cenfernt!");

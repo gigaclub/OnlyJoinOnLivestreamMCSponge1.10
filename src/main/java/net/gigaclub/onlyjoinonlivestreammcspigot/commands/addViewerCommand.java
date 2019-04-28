@@ -14,17 +14,21 @@ public class addViewerCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(Main.listOfStreamers.contains(sender.getName().toLowerCase())) {
             if(args.length == 1) {
-                FileConfiguration config = Main.getPlugin().getConfig();
-                ArrayList<String> listOfViewers = (ArrayList<String>) config.getStringList("ViewerListOf." + sender.getName().toLowerCase() + ".Viewer");
-                if(!listOfViewers.contains(args[0].toLowerCase())) {
-                    listOfViewers.add(args[0].toLowerCase());
-                    Main.listOfAllViewers.replace(sender.getName().toLowerCase(), listOfViewers);
-                    config.set("ViewerListOf." + sender.getName().toLowerCase() + ".Viewer", listOfViewers);
-                    sender.sendMessage("§aDer Spieler §6" + args[0] + " §awurde zu deiner Liste hinzugefügt!");
+                if(!Main.listOfStreamers.contains(args[0].toLowerCase())) {
+                    FileConfiguration config = Main.getPlugin().getConfig();
+                    ArrayList<String> listOfViewers = (ArrayList<String>) config.getStringList("ViewerListOf." + sender.getName().toLowerCase() + ".Viewer");
+                    if (!listOfViewers.contains(args[0].toLowerCase())) {
+                        listOfViewers.add(args[0].toLowerCase());
+                        Main.listOfAllViewers.replace(sender.getName().toLowerCase(), listOfViewers);
+                        config.set("ViewerListOf." + sender.getName().toLowerCase() + ".Viewer", listOfViewers);
+                        sender.sendMessage("§aDer Spieler §6" + args[0] + " §awurde zu deiner Liste hinzugefügt!");
+                    } else {
+                        sender.sendMessage("§cDer Name §6" + args[0] + " §csteht bereits auf deiner Liste!");
+                    }
+                    Main.getPlugin().saveConfig();
                 } else {
-                    sender.sendMessage("§cDer Name §6" + args[0] + " §csteht bereits auf deiner Liste!");
+                    sender.sendMessage("§cDer Spieler §6" + args[0] + " §cist ein Streamer!");
                 }
-                Main.getPlugin().saveConfig();
             } else {
                 sender.sendMessage("§cDer Command heißt §6/addViewer <Name>§c!");
             }

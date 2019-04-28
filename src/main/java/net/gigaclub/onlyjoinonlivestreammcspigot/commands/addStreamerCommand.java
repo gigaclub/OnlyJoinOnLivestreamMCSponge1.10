@@ -23,7 +23,6 @@ public class addStreamerCommand implements CommandExecutor {
                     config.set("Streamer", Main.listOfStreamers);
                     for(Map.Entry<String, ArrayList<String>> entry : Main.listOfAllViewers.entrySet()) {
                         config.set("ViewerListOf." + entry.getKey() + ".Viewer", entry.getValue());
-                        sender.sendMessage(entry.getKey() + " " + entry.getValue());
                     }
                     sender.sendMessage("§aDer Streamer §6" + args[0] + " §awurde zu deiner Liste hinzugefügt!");
                 } else {
