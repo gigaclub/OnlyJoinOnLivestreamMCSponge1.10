@@ -21,14 +21,18 @@ public final class Main extends JavaPlugin {
         Objects.requireNonNull(getCommand("remViewer")).setExecutor(new remViewerCommand());
         Objects.requireNonNull(getCommand("showViewer")).setExecutor(new showViewerCommand());
 
-        PluginManager pluginManager = Bukkit.getPluginManager();
-        pluginManager.registerEvents(new checkGroupFunction(), this);
-        pluginManager.registerEvents(new checkStreamerStatusFunction(), this);
+        //PluginManager pluginManager = Bukkit.getPluginManager();
+        //pluginManager.registerEvents(new checkGroupFunction(), this);
+        //pluginManager.registerEvents(new checkStreamerStatusFunction(), this);
 
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public static Main getPlugin() {
+        return plugin;
     }
 }

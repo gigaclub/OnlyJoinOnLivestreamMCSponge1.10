@@ -1,0 +1,7 @@
+net\gigaclub\onlyjoinonlivestreammcspigot\commands\addViewerCommand.class
+net\gigaclub\onlyjoinonlivestreammcspigot\help\JsonReader.class
+net\gigaclub\onlyjoinonlivestreammcspigot\Main.class
+net\gigaclub\onlyjoinonlivestreammcspigot\functions\checkStreamerStatusFunction.class
+net\gigaclub\onlyjoinonlivestreammcspigot\commands\remViewerCommand.class
+net\gigaclub\onlyjoinonlivestreammcspigot\functions\checkGroupFunction.class
+net\gigaclub\onlyjoinonlivestreammcspigot\commands\showViewerCommand.class
