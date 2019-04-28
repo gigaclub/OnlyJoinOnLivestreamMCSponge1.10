@@ -11,12 +11,12 @@ import java.util.ArrayList;
 public class showViewerCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(Main.listOfStreamers.contains(sender.getName())) {
+        if(Main.listOfStreamers.contains(sender.getName().toLowerCase())) {
             FileConfiguration config = Main.getPlugin().getConfig();
-            Main.listOfViewers = (ArrayList<String>) config.getStringList("ViewerListOf." + sender.getName() + ".Viewer");
-            if(!Main.listOfViewers.isEmpty()) {
+            ArrayList<String> listOfViewers = (ArrayList<String>) config.getStringList("ViewerListOf." + sender.getName().toLowerCase() + ".Viewer");
+            if(!listOfViewers.isEmpty()) {
                 sender.sendMessage("§aHier ist die Liste der Viewer:");
-                for (String viewer : Main.listOfViewers) {
+                for (String viewer : listOfViewers) {
                     sender.sendMessage("§6" + viewer);
                 }
             } else {

@@ -1,4 +1,4 @@
-name: Net.gigaclub.OnlyJoinOnLivestreamMCSpigot1.10
+name: OnlyJoinOnLivestream
 version: ${project.version}
 main: net.gigaclub.onlyjoinonlivestreammcspigot.Main
 authors: [GigaClub]
@@ -24,11 +24,11 @@ commands:
     permission: OJL.remStreamer
 permissions:
   OJL.addViewer:
-    default: op
+    default: true
   OJL.showViewer:
-    default: op
+    default: true
   OJL.remViewer:
-    default: op
+    default: true
   OJL.addStreamer:
     default: op
   OJL.showStreamer:
