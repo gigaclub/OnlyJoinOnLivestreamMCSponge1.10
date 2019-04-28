@@ -11,13 +11,13 @@ import java.util.ArrayList;
 public class addViewerCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(sender.hasPermission("OJL.addViewer")) {
+        if(Main.listOfStreamers.contains(sender.getName())) {
             if(args.length == 1) {
                 FileConfiguration config = Main.getPlugin().getConfig();
-                ArrayList<String> listOfViewers = (ArrayList<String>) config.getStringList("Viewer");
-                if(!listOfViewers.contains(args[0])) {
-                    listOfViewers.add(args[0]);
-                    config.set("Viewer", listOfViewers);
+                Main.listOfViewers = (ArrayList<String>) config.getStringList("ViewerListOf." + sender.getName() + ".Viewer");
+                if(!Main.listOfViewers.contains(args[0])) {
+                    Main.listOfViewers.add(args[0]);
+                    config.set("ViewerListOf." + sender.getName() + ".Viewer", Main.listOfViewers);
                     sender.sendMessage("§aDer Spieler §6" + args[0] + " §awurde zu deiner Liste hinzugefügt!");
                 } else {
                     sender.sendMessage("§cDer Name §6" + args[0] + " §csteht bereits auf deiner Liste!");

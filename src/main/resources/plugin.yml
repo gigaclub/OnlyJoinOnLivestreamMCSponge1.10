@@ -13,10 +13,25 @@ commands:
   remViewer:
     description: remViewer
     permission: OJL.remViewer
+  addStreamer:
+    description: addStreamer
+    permission: OJL.addStreamer
+  showStreamer:
+    description: showStreamer
+    permission: OJL.showStreamer
+  remStreamer:
+    description: remStreamer
+    permission: OJL.remStreamer
 permissions:
   OJL.addViewer:
     default: op
   OJL.showViewer:
     default: op
   OJL.remViewer:
+    default: op
+  OJL.addStreamer:
+    default: op
+  OJL.showStreamer:
+    default: op
+  OJL.remStreamer:
     default: op
