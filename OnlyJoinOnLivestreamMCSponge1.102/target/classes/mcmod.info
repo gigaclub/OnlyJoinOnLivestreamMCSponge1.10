@@ -1,0 +1,18 @@
+[
+    {
+        "modid": "onlyjoinonlivestreammcsponge110",
+        "name": "OnlyJoinOnLivestreamMCSponge110",
+        "version": "1.0",
+        "description": "Plugin for Streamer",
+        "url": "https://GigaClub.net",
+        "authorList": [
+            "GigaClub"
+        ],
+        "dependencies": [
+            "spongeapi@7.0.0"
+        ],
+        "requiredMods": [
+            "spongeapi@7.0.0"
+        ]
+    }
+]
