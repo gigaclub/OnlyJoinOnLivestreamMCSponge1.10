@@ -1,6 +1,7 @@
 package net.gigaclub.onlyjoinonlivestreammcsponge.commands;
 
 import net.gigaclub.onlyjoinonlivestreammcsponge.Main;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -27,16 +28,15 @@ public class addStreamerCommand implements CommandExecutor {
             Main.listOfAllViewers.put(streamer, new ArrayList<>());
             Main.plugin.config.getNode("Streamer").setValue(Main.listOfStreamers);
             for(Map.Entry<String, ArrayList<String>> entry : Main.listOfAllViewers.entrySet()) {
-                Main.plugin.config.getNode("ViewerOfList", entry.getKey(), "Viewer").setValue(entry.getValue());
+                Main.plugin.config.getNode("ViewerListOf", entry.getKey(), "Viewer").setValue(entry.getValue());
             }
             Main.plugin.saveConfig();
+            CommandSource cs = Sponge.getServer().getConsole();
+            Sponge.getCommandManager().process(cs, "whitelist add " + streamer);
             src.sendMessage(Text.of(TextColors.GREEN, streamer + " wurde als Streamer hinzugefügt!"));
         } else {
             src.sendMessage(Text.of(TextColors.RED, streamer + " ist bereits ein Streamer!"));
         }
-
-
-
         return CommandResult.success();
     }
 

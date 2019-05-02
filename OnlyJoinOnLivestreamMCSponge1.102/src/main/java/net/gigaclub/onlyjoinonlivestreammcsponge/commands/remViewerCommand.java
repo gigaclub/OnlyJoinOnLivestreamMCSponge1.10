@@ -28,6 +28,7 @@ public class remViewerCommand implements CommandExecutor {
                 listOfViewers.remove(viewer);
                 Main.listOfAllViewers.replace(src.getName().toLowerCase(), listOfViewers);
                 Main.plugin.config.getNode("ViewerListOf", src.getName().toLowerCase(), "Viewer").setValue(listOfViewers);
+                Main.plugin.saveConfig();
                 src.sendMessage(Text.of(TextColors.GREEN, "Der Viewer " + viewer + " wurde aus deiner Liste entfernt!"));
             } else {
                 src.sendMessage(Text.of(TextColors.RED, "Der Viewer " + viewer + " steht nicht auf deiner Liste!"));
