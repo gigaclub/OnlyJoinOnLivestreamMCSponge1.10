@@ -1,6 +1,7 @@
 package net.gigaclub.onlyjoinonlivestreammcsponge.commands;
 
 import net.gigaclub.onlyjoinonlivestreammcsponge.Main;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -17,7 +18,7 @@ public class addViewerCommand implements CommandExecutor {
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
 
-        String viewer = args.<String>getOne("message").get().toLowerCase();
+        String viewer = args.<String>getOne("message").get().toLowerCase().replaceAll("\\s","");
 
         if(Main.listOfStreamers.contains(src.getName().toLowerCase())) {
             if(!Main.listOfStreamers.contains(viewer)) {
@@ -30,6 +31,8 @@ public class addViewerCommand implements CommandExecutor {
                     Main.listOfAllViewers.replace(src.getName().toLowerCase(), listOfViewers);
                     Main.plugin.config.getNode("ViewerListOf", src.getName().toLowerCase(), "Viewer").setValue(listOfViewers);
                     Main.plugin.saveConfig();
+                    CommandSource cs = Sponge.getServer().getConsole();
+                    Sponge.getCommandManager().process(cs, "whitelist add " + viewer);
                     src.sendMessage(Text.of(TextColors.GREEN, "Der Viewer " + viewer + " wurde zu deiner Liste hinzugefügt!"));
                 } else {
                     src.sendMessage(Text.of(TextColors.RED, "Der Viewer " + viewer + " steht bereits auf deiner Liste!"));

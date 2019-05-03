@@ -3,12 +3,15 @@ package net.gigaclub.onlyjoinonlivestreammcsponge;
 import com.google.inject.Inject;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 import net.gigaclub.onlyjoinonlivestreammcsponge.commands.*;
 import net.gigaclub.onlyjoinonlivestreammcsponge.functions.JoinEvent;
+import net.gigaclub.onlyjoinonlivestreammcsponge.functions.LeaveEvent;
 import net.gigaclub.onlyjoinonlivestreammcsponge.functions.onCommandExecuteEvent;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -17,11 +20,14 @@ import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.config.DefaultConfig;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.service.user.UserStorageService;
+import sun.misc.IOUtils;
 
 
 @Plugin(
@@ -84,6 +90,7 @@ public class Main {
 
         Sponge.getEventManager().registerListeners(this, new JoinEvent());
         Sponge.getEventManager().registerListeners(this, new onCommandExecuteEvent());
+        Sponge.getEventManager().registerListeners(this, new LeaveEvent());
     }
     @Listener
     public void serverStarted(GameStartedServerEvent event) {
@@ -110,5 +117,29 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String streamToString(InputStream inputStream) {
+        Scanner s = new Scanner(inputStream, "UTF-8").useDelimiter("\\Z");
+        return s.hasNext() ? s.next() : "";
+    }
+
+    public static String jsonGetRequest(String urlQueryString) {
+        String json = null;
+        try {
+            URL url = new URL(urlQueryString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoOutput(true);
+            connection.setInstanceFollowRedirects(false);
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("charset", "utf-8");
+            connection.connect();
+            InputStream inStream = connection.getInputStream();
+            json = streamToString(inStream); // input stream to string
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return json;
     }
 }
