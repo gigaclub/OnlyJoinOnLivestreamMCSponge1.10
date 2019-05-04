@@ -81,11 +81,10 @@ public class remViewerCommand implements CommandExecutor {
                         if (playerOptinal.isPresent() && Sponge.getServer().getOnlinePlayers().contains(playerOptinal.get()) && !available) {
                             Sponge.getCommandManager().process(cs, "kick " + spieler + " Du wurdest von der Viewer-List entfernt!");
                             Sponge.getCommandManager().process(cs, "whitelist remove " + spieler);
-                            src.sendMessage(Text.of(TextColors.GREEN, "Der Viewer " + viewer + " wurde aus deiner Liste entfernt!"));
                         } else if(!available) {
                             Sponge.getCommandManager().process(cs, "whitelist remove " + spieler);
-                            src.sendMessage(Text.of(TextColors.GREEN, "Der Viewer " + viewer + " wurde aus deiner Liste entfernt!"));
                         }
+                        src.sendMessage(Text.of(TextColors.GREEN, "Der Viewer " + viewer + " wurde aus deiner Liste entfernt!"));
                     }
             } else {
                 src.sendMessage(Text.of(TextColors.RED, "Der Viewer " + viewer + " steht nicht auf deiner Liste!"));
