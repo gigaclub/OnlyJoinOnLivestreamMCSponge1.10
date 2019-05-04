@@ -7,9 +7,9 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
+import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
 
 public class LeaveEvent {
 
@@ -45,14 +45,31 @@ public class LeaveEvent {
                         String spieler = String.valueOf(sb.reverse());
                         boolean available = false;
                         Optional<Player> playerOptinal = Sponge.getServer().getPlayer(spieler);
-                        for(String st : Main.listOfStreamers) {
-                            listOfViewers = (ArrayList<String>) Main.plugin.config.getNode("ViewerListOf", st, "Viewer").getValue();
-                            if(listOfViewers.contains(spieler)) {
-                                available = true;
+                        List<String> los = new ArrayList<>();
+                        los = (ArrayList<String>) Main.listOfStreamers.clone();
+                        los.remove(player.getName().toLowerCase());
+                        for(int i = 0; i < los.size(); i++) {
+                            if(!Sponge.getServer().getOnlinePlayers().isEmpty()) {
+                                if (!Sponge.getServer().getPlayer(los.get(i)).isPresent()) {
+                                    los.remove(los.get(i));
+                                    i++;
+                                }
+                            } else {
+                                los.remove(los.get(i));
+                                i++;
+                            }
+                        }
+                        for(String st : los) {
+                            List<String> listOfViewers2 = new ArrayList<>();
+                            if(Main.plugin.config.getNode("ViewerListOf", st, "Viewer").getValue() != null) {
+                                listOfViewers2 = (ArrayList<String>) Main.plugin.config.getNode("ViewerListOf", st, "Viewer").getValue();
+                                if (listOfViewers2.contains(spieler.toLowerCase())) {
+                                    available = true;
+                                }
                             }
                         }
                         if (playerOptinal.isPresent() && Sponge.getServer().getOnlinePlayers().contains(playerOptinal.get()) && !available) {
-                            Sponge.getCommandManager().process(cs, "kick " + spieler + " Du wurdest von der Viewer-List entfernt!");
+                            Sponge.getCommandManager().process(cs, "kick " + spieler + " Dein/e Streamer haben den Server verlassen!");
                             Sponge.getCommandManager().process(cs, "whitelist remove " + spieler);
                         } else if(!available) {
                             Sponge.getCommandManager().process(cs, "whitelist remove " + spieler);

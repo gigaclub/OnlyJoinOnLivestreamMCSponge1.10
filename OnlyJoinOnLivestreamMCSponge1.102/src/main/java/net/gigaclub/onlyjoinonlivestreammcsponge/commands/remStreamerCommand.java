@@ -46,17 +46,34 @@ public class remStreamerCommand implements CommandExecutor {
                 boolean available = false;
                 ArrayList<String> listOfViewers;
                 Optional<Player> playerOptinal = Sponge.getServer().getPlayer(name);
-                for(String st : Main.listOfStreamers) {
-                    listOfViewers = (ArrayList<String>) Main.plugin.config.getNode("ViewerListOf", st, "Viewer").getValue();
-                    if(listOfViewers.contains(name)) {
-                        available = true;
+                List<String> los = new ArrayList<>();
+                los = (ArrayList<String>) Main.listOfStreamers.clone();
+                los.remove(src.getName().toLowerCase());
+                for(int i = 0; i < los.size(); i++) {
+                    if(!Sponge.getServer().getOnlinePlayers().isEmpty()) {
+                        if (!Sponge.getServer().getPlayer(los.get(i)).isPresent()) {
+                            los.remove(los.get(i));
+                            i++;
+                        }
+                    } else {
+                        los.remove(los.get(i));
+                        i++;
+                    }
+                }
+                for(String st : los) {
+                    List<String> listOfViewers2 = new ArrayList<>();
+                    if(Main.plugin.config.getNode("ViewerListOf", st, "Viewer").getValue() != null) {
+                        listOfViewers2 = (ArrayList<String>) Main.plugin.config.getNode("ViewerListOf", st, "Viewer").getValue();
+                        if (listOfViewers2.contains(name.toLowerCase())) {
+                            available = true;
+                        }
                     }
                 }
                 if(!available) {
                     Sponge.getCommandManager().process(cs, "kick " + name + " Du bist nun kein Streamer mehr!");
                     Sponge.getCommandManager().process(cs, "whitelist remove " + name);
-                    src.sendMessage(Text.of(TextColors.GREEN, streamer + " wurde aus der Streamer-Liste entfernt!"));
                 }
+                src.sendMessage(Text.of(TextColors.GREEN, streamer + " wurde aus der Streamer-Liste entfernt!"));
             } else {
                 String js = Main.jsonGetRequest("https://api.mojang.com/users/profiles/minecraft/" + streamer);
                 boolean test = false;
@@ -78,14 +95,31 @@ public class remStreamerCommand implements CommandExecutor {
                     sb.deleteCharAt(0);
                     String spieler = String.valueOf(sb.reverse());
                     boolean available = false;
-                    ArrayList<String> listOfViewers;
-                    for(String st : Main.listOfStreamers) {
-                        listOfViewers = (ArrayList<String>) Main.plugin.config.getNode("ViewerListOf", st, "Viewer").getValue();
-                        if(listOfViewers.contains(spieler)) {
-                            available = true;
+                    Optional<Player> playerOptinal = Sponge.getServer().getPlayer(spieler);
+                    List<String> los = new ArrayList<>();
+                    los = (ArrayList<String>) Main.listOfStreamers.clone();
+                    los.remove(src.getName().toLowerCase());
+                    for(int i = 0; i < los.size(); i++) {
+                        if(!Sponge.getServer().getOnlinePlayers().isEmpty()) {
+                            if (!Sponge.getServer().getPlayer(los.get(i)).isPresent()) {
+                                los.remove(los.get(i));
+                                i++;
+                            }
+                        } else {
+                            los.remove(los.get(i));
+                            i++;
                         }
                     }
-                    if (!available) {
+                    for(String st : los) {
+                        List<String> listOfViewers2 = new ArrayList<>();
+                        if(Main.plugin.config.getNode("ViewerListOf", st, "Viewer").getValue() != null) {
+                            listOfViewers2 = (ArrayList<String>) Main.plugin.config.getNode("ViewerListOf", st, "Viewer").getValue();
+                            if (listOfViewers2.contains(spieler.toLowerCase())) {
+                                available = true;
+                            }
+                        }
+                    }
+                    if(!available) {
                         Sponge.getCommandManager().process(cs, "whitelist remove " + spieler);
                     }
                     src.sendMessage(Text.of(TextColors.GREEN, streamer + " wurde aus der Streamer-Liste entfernt!"));

@@ -14,6 +14,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class remViewerCommand implements CommandExecutor {
@@ -54,10 +55,27 @@ public class remViewerCommand implements CommandExecutor {
                         String spieler = String.valueOf(sb.reverse());
                         boolean available = false;
                         Optional<Player> playerOptinal = Sponge.getServer().getPlayer(spieler);
-                        for(String st : Main.listOfStreamers) {
-                            listOfViewers = (ArrayList<String>) Main.plugin.config.getNode("ViewerListOf", st, "Viewer").getValue();
-                            if(listOfViewers.contains(spieler)) {
-                                available = true;
+                        List<String> los = new ArrayList<>();
+                        los = (ArrayList<String>) Main.listOfStreamers.clone();
+                        los.remove(src.getName().toLowerCase());
+                        for(int i = 0; i < los.size(); i++) {
+                            if(!Sponge.getServer().getOnlinePlayers().isEmpty()) {
+                                if (!Sponge.getServer().getPlayer(los.get(i)).isPresent()) {
+                                    los.remove(los.get(i));
+                                    i++;
+                                }
+                            } else {
+                                los.remove(los.get(i));
+                                i++;
+                            }
+                        }
+                        for(String st : los) {
+                            List<String> listOfViewers2 = new ArrayList<>();
+                            if(Main.plugin.config.getNode("ViewerListOf", st, "Viewer").getValue() != null) {
+                                listOfViewers2 = (ArrayList<String>) Main.plugin.config.getNode("ViewerListOf", st, "Viewer").getValue();
+                                if (listOfViewers2.contains(spieler.toLowerCase())) {
+                                    available = true;
+                                }
                             }
                         }
                         if (playerOptinal.isPresent() && Sponge.getServer().getOnlinePlayers().contains(playerOptinal.get()) && !available) {
